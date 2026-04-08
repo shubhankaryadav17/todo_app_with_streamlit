@@ -35,12 +35,12 @@ if nav == "Create":
     # if submit button pressed taking all these values it create a dataframe and also save this dataframe into current directory
     if submit:
         try:
-            start_date = sd.strftime("%d-%m-%Y")
-            end_date = ed.strftime("%d-%m-%Y")
+            start_date = sd.strftime("%Y-%m-%d")
+            end_date = ed.strftime("%Y-%m-%d")
             task_list = tk
 
             date_range = pd.date_range(start=start_date, end=end_date)
-            dates = [d.strftime("%d-%m-%Y") for d in date_range]
+            dates = [d.strftime("%Y-%m-%d") for d in date_range]
 
             tasks = [t.strip() for t in task_list.split(",")]
             tasks= [x.title() for x in tasks]
@@ -77,9 +77,9 @@ elif nav=="Manage(marking complete)":
         tdchoice=x.button(":green[For Today]")
         ytdchoice=y.button(":red[For Yesterday]")
         td=date.today()
-        tdstr=td.strftime("%d-%m-%Y")
+        tdstr=str(td)
         ytd=td-timedelta(days=1) # using timedelta function subtract 1 day from today
-        ytdstr=ytd.strftime("%d-%m-%Y")
+        ytdstr=str(ytd)
 
         # if both conditions true than add task for today
         if tdchoice and tskmng:
@@ -106,7 +106,7 @@ elif nav=="Insights":
     idv=df.index[0]
     idvstr=str(idv)
     td=date.today()
-    tdstr=td.strftime("%d-%m-%Y")
+    tdstr=str(td)
     tdx=df.index.get_loc(tdstr)
     df=df[:tdstr]
     id_list=df.index.to_list()
@@ -169,14 +169,14 @@ elif nav=="Settings":
    df=pd.read_csv("app_data.csv",index_col=0)
    stdvalue=df.index[0]
    td=date.today()
-   tdstr=td.strftime("%d-%m-%Y")
+   tdstr=str(td)
    cl_list=df.columns.tolist()
    with st.form(key="form3"):
       tskmng=st.radio("Select Task",cl_list,index=None)
       dtinput=st.date_input("Enter Date")
       submit3=st.form_submit_button("Submit")
    if submit3:
-      dtinput=dtinput.strftime("%d-%m-%Y")
+      dtinput=dtinput.strftime("%Y-%m-%d")
       if dtinput<stdvalue:
          st.write("Date entered is not found. please re select a date from current To Do Date range")
       elif dtinput<tdstr:
